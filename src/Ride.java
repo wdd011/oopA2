@@ -4,33 +4,71 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * Represents a ride in an amusement park, implementing the RideInterface.
+ * This class encapsulates the properties and behaviors of a ride, including its employees, visitors, and operational logic.
+ */
 public class Ride implements RideInterface {
+    /**
+     * The employee assigned to the ride.
+     */
     Employee employee;
+    /**
+     * The name or identifier of the ride program.
+     */
     String Program;
+    /**
+     * The maximum number of riders allowed on the ride at one time.
+     */
     int maxRider;
+    /**
+     * The number of cycles the ride has operated.
+     */
     int numOfCycles;
+    /**
+     * The current number of riders on the ride.
+     */
     int nowRider;
 
+    /**
+     * A lock object used for synchronizing access to shared resources.
+     */
     private final Lock lock = new ReentrantLock();
 
+    /**
+     * Constructor for Ride that initializes the ride's properties.
+     *
+     * @param Program The name or identifier of the ride program.
+     * @param maxRider The maximum number of riders allowed on the ride.
+     */
     public Ride(String Program, int maxRider) {
         this.Program = Program;
-        this.employee = employee;
+        this.employee = null; // Initialize employee to null
         this.maxRider = maxRider;
         this.numOfCycles = 0;
-        this.nowRider=0;
+        this.nowRider = 0;
     }
 
+    /**
+     * Default constructor for Ride.
+     */
     public Ride() {
+        // Initialize lists and queues for visitors, rides, and employees
         LinkedList<Visitor> vistorslist = new LinkedList<>();
         Queue<Visitor> vistorQueue = new LinkedList<>();
-        LinkedList<Ride> Ridelist=new LinkedList<>();
-        LinkedList<Employee> employeeslist=new LinkedList<>();
+        LinkedList<Ride> Ridelist = new LinkedList<>();
+        LinkedList<Employee> employeeslist = new LinkedList<>();
     }
 
-
-
-    final LinkedList<Employee> employeeslist=new LinkedList<>();
+    // List of employees assigned to the ride
+    final LinkedList<Employee> employeeslist = new LinkedList<>();
+    /**
+     * Adds an employee to the ride's list of employees.
+     *
+     * @param employee The employee to add.
+     * @throws IllegalArgumentException If the employee is null.
+     */
     @Override
     public void setEmployeeslist(Employee employee) {
         if (employee != null) {
@@ -39,8 +77,16 @@ public class Ride implements RideInterface {
             throw new IllegalArgumentException("employee is null");
         }
     }
-    final LinkedList<Ride> Ridelist=new LinkedList<>();
 
+    // List of rides
+    final LinkedList<Ride> Ridelist = new LinkedList<>();
+
+    /**
+     * Adds a ride to the ride list.
+     *
+     * @param ride The ride to add.
+     * @throws IllegalArgumentException If the ride is null.
+     */
     @Override
     public void setRidelist(Ride ride) {
         if (ride != null) {
@@ -50,22 +96,40 @@ public class Ride implements RideInterface {
         }
     }
 
+    /**
+     * Returns the maximum number of riders allowed on the ride.
+     *
+     * @return The maximum number of riders.
+     */
     public int getmaxRider() {
         return maxRider;
     }
 
-
+    /**
+     * Returns the employee assigned to the ride.
+     *
+     * @return The employee.
+     */
     public Employee getStaff() {
         return employee;
     }
 
+    /**
+     * Returns the name or identifier of the ride program.
+     *
+     * @return The program name.
+     */
     public String getClassName() {
         return Program;
     }
 
-
+    /**
+     * Sets the name or identifier of the ride program.
+     *
+     * @param className The new program name.
+     * @throws IllegalArgumentException If the provided value is null.
+     */
     public void setClassName(String className) {
-
         if (className == null) {
             throw new IllegalArgumentException("Invalid value");
         } else {
@@ -73,9 +137,13 @@ public class Ride implements RideInterface {
         }
     }
 
-
+    /**
+     * Sets the employee assigned to the ride.
+     *
+     * @param employee The new employee.
+     * @throws IllegalArgumentException If the employee is null.
+     */
     public void setStaff(Employee employee) {
-
         if (employee == null) {
             throw new IllegalArgumentException("Invalid value");
         } else {
@@ -83,9 +151,13 @@ public class Ride implements RideInterface {
         }
     }
 
-
+    /**
+     * Sets the maximum number of riders allowed on the ride.
+     *
+     * @param maxRider The new maximum number of riders.
+     * @throws IllegalArgumentException If the provided value is less than or equal to 0.
+     */
     public void setmaxRider(int maxRider) {
-
         if (maxRider <= 0) {
             throw new IllegalArgumentException("Invalid value");
         } else {
@@ -93,12 +165,17 @@ public class Ride implements RideInterface {
         }
     }
 
+    // List of visitors waiting for the ride
+    final LinkedList<Visitor> visitorslist = new LinkedList<>();
 
-    final LinkedList<Visitor> visitorslist=new LinkedList<>();
-
+    /**
+     * Adds a visitor to the ride's list of visitors.
+     *
+     * @param visitor The visitor to add.
+     * @throws IllegalArgumentException If the visitor is null.
+     */
     @Override
     public void setVisitorlist(Visitor visitor) {
-
         if (visitor != null) {
             visitorslist.add(visitor);
         } else {
@@ -106,11 +183,14 @@ public class Ride implements RideInterface {
         }
     }
 
-
-
+    /**
+     * Removes a visitor from the ride's list of visitors.
+     *
+     * @param visitor The visitor to remove.
+     * @throws IllegalArgumentException If the visitor is not in the list.
+     */
     @Override
     public void deleteVisitorlist(Visitor visitor) {
-
         if (visitorslist.contains(visitor)) {
             visitorslist.remove(visitor);
         } else {
@@ -118,9 +198,11 @@ public class Ride implements RideInterface {
         }
     }
 
+    /**
+     * Prints the list of visitors waiting for the ride.
+     */
     @Override
     public void printVisitorlist() {
-
         Iterator<Visitor> it = visitorslist.iterator();
         System.out.println("Name\t" + "Level\t" + "Program\t" + "High\t" + "Weight\t" + "Years\t" + "\n");
         while (it.hasNext()) {
@@ -129,23 +211,39 @@ public class Ride implements RideInterface {
         }
     }
 
+    /**
+     * Returns the number of visitors in the ride's list.
+     *
+     * @return The number of visitors.
+     */
     @Override
-    public int numberOfVisitorlist(){
+    public int numberOfVisitorlist() {
         int X;
         X = visitorslist.size();
         return X;
     }
 
+    // Queue of visitors who have ridden the ride
     final Queue<Visitor> visitorQueue = new LinkedList<>();
 
+    /**
+     * Adds a visitor to the ride's history queue.
+     *
+     * @param A The visitor to add.
+     */
     @Override
     public void addVisitorHistory(Visitor A) {
         visitorQueue.offer(A);
     }
 
-    final LinkedList<Visitor> X =new LinkedList<>();
+    // Temporary list for sorting visitors
+    final LinkedList<Visitor> X = new LinkedList<>();
 
-
+    /**
+     * Returns the number of visitors in the ride's history queue.
+     *
+     * @return The number of visitors.
+     */
     @Override
     public int numberOfVisitorHistory() {
         int X;
@@ -153,6 +251,12 @@ public class Ride implements RideInterface {
         return X;
     }
 
+    /**
+     * Checks if a visitor is in the ride's history queue.
+     *
+     * @param visitor The visitor to check.
+     * @return True if the visitor is in the history queue, false otherwise.
+     */
     @Override
     public boolean checkVisitorFormHistory(Visitor visitor) {
         boolean X;
@@ -160,6 +264,9 @@ public class Ride implements RideInterface {
         return X;
     }
 
+    /**
+     * Prints the list of visitors who have ridden the ride.
+     */
     @Override
     public void printVisitorHistory() {
         System.out.println("Name\t" + "Level\t" + "Program\t" + "High\t" + "Weight\t" + "Years\t" + "\n");
@@ -168,6 +275,9 @@ public class Ride implements RideInterface {
         }
     }
 
+    /**
+     * Sorts the visitors in the ride's history queue.
+     */
     @Override
     public void sortVisitorHistory() {
         X.addAll(visitorQueue);
@@ -178,6 +288,12 @@ public class Ride implements RideInterface {
         }
     }
 
+    /**
+     * Checks if an employee with the matching function exists for the ride.
+     *
+     * @param ride The ride to check.
+     * @return True if an employee exists, false otherwise.
+     */
     @Override
     public boolean checkEmployee(Ride ride) {
         if (ride == null || employeeslist == null) {
@@ -185,13 +301,17 @@ public class Ride implements RideInterface {
         }
 
         for (Employee A : employeeslist) {
-            if (A.getFuntion().equals(ride.Program)) {
+            if (A.getFunction().equals(ride.Program)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Simulates one cycle of the ride operation, processing visitors and updating ride statistics.
+     * It decreases the number of riders in the queue, increments the ride cycle count, and updates the visitor history.
+     */
     @Override
     public void RunOneCycle() {
         for (int i = visitorslist.size() - 1; i >= 0; i--) {
@@ -222,7 +342,10 @@ public class Ride implements RideInterface {
         }
     }
 
-
+    /**
+     * Writes the current visitor list to a CSV file named "visitorList.csv".
+     * The file will contain the name, weight, height, years, level, and program of each visitor.
+     */
     @Override
     public void writefile() {
         lock.lock();
@@ -264,6 +387,12 @@ public class Ride implements RideInterface {
         }
     }
 
+    /**
+     * Reads visitor data from a CSV file named "visitorList.csv" and adds them to the visitor list.
+     * The file is expected to contain the name, weight, height, years, level, and program of each visitor.
+     *
+     * @param filename The file to read from.
+     */
     @Override
     public void readFile(File filename) {
         lock.lock();
@@ -329,5 +458,4 @@ public class Ride implements RideInterface {
             lock.unlock();
         }
     }
-
 }
